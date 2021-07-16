@@ -9,11 +9,20 @@ const FeedScreen = ({navigation}) => {
     // react hooks for managing states 
     const [task, setTask] = useState();
     const [taskItems, setTaskItems] = useState([]);
+    const [deletedtaskItems, setDeletedTaskItems] = useState([]);
 
     // Using Async Local Storage to store the list of tasks that can be retrived even after restarting the app.
     const storeData = async (value) => {
       try {
         await AsyncStorage.setItem('tasklist', JSON.stringify(value))
+      } catch (e) {
+        //error storing the value
+      }
+    }
+
+    const storeDeletedData = async (value) => {
+      try {
+        await AsyncStorage.setItem('Deletedtasklist', JSON.stringify(value))
       } catch (e) {
         //error storing the value
       }
@@ -37,8 +46,11 @@ const FeedScreen = ({navigation}) => {
 
     const addTask = () => {
         Keyboard.dismiss();
-        if(task!==null){
+        if(task !== null){
           setTaskItems([...taskItems, task]) // appending the task value to the the array
+          storeData([...taskItems,task]) // storing the array in async storage
+          //console.log([...taskItems,task])
+          setTask(null); //resetting the task value to null
         }
         else{
           Alert.alert(  
@@ -46,17 +58,17 @@ const FeedScreen = ({navigation}) => {
             'Task cannot be empty',  
         );  
         }
-        storeData([...taskItems,task]) // storing the array in async storage
-        //console.log([...taskItems,task])
-        setTask(null); //resetting the task value to null
     }
 
     const deleteTask = (index) => {
       let task_temp = [...taskItems];
+      setDeletedTaskItems([...deletedtaskItems,taskItems[index]])
       task_temp.splice(index, 1);
       setTaskItems(task_temp) 
       //console.log(task_temp)
       storeData(task_temp) // overwriting the modified array in the async local storage after deletion of the task.
+      //console.log([...deletedtaskItems,taskItems[index]])
+      storeDeletedData([...deletedtaskItems,taskItems[index]])
     }
 
     // const updateTask = (index) =>{
@@ -110,6 +122,7 @@ const FeedScreen = ({navigation}) => {
           </View>
         </View>
         </ScrollView>
+
         {/* {restricting overlapping of keyboard while taking input from the user} */}
         <KeyboardAvoidingView  style={mystyles.inputContainer}>
          <TextInput style={mystyles.task_input} placeholder={'Write a task'} value={task} onChangeText={text => setTask(text)} />

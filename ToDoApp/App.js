@@ -41,6 +41,7 @@
  import {DrawerContent} from './Screens/DrawerContent';
  import MainTabScreen from './Screens/MainTabScreen';
  import TaskHistory from './Screens/TaskHistory';
+ import AboutScreen from './Screens/AboutScreen';
  
  LogBox.ignoreLogs(['Warning: ...']); // Ignore log notification by message
  LogBox.ignoreAllLogs();
@@ -53,6 +54,7 @@
        <Drawer.Navigator drawerContent={props => <DrawerContent {...props}/>} >
          <Drawer.Screen name="HomeDrawer" component={MainTabScreen} />
          <Drawer.Screen name="History" component={TaskHistory} />
+         <Drawer.Screen name="About" component={AboutScreen} />
        </Drawer.Navigator>
      </NavigationContainer>
    );

@@ -3,7 +3,7 @@ import {ImageBackground,ScrollView,View,Text,Button,StyleSheet,Pressable} from '
 import IonIcon from 'react-native-vector-icons/Ionicons';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-const HomeScreen=({navigation})=>{
+const AboutScreen=({navigation})=>{
     // navigation.setOptions({
     //   headerRight:()=>(
     //     <Button title="Save" onPress={()=>{
@@ -45,7 +45,7 @@ const HomeScreen=({navigation})=>{
   );
 };
 
-export default HomeScreen;
+export default AboutScreen;
 
 const styles = StyleSheet.create({
     bg: {

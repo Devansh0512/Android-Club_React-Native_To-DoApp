@@ -43,6 +43,13 @@ export function DrawerContent(props){
                         />
                         <DrawerItem
                             icon={({color,size}) => (
+                                <Icon name="information-outline" color={color} size={size} />
+                            )}
+                            label="About"
+                            onPress={() => {props.navigation.navigate('About')}}
+                        />
+                        <DrawerItem
+                            icon={({color,size}) => (
                                 <Icon name="exit-to-app" color={color} size={size} />
                             )}
                             label="Sign Out"

@@ -22,7 +22,7 @@ const MainTabScreen = () => (
         component={HomeStackScreen}
         options={{
           tabBarLabel: 'Home',
-          tabBarColor: '#009387',
+          tabBarColor: '#9A4B24',
           tabBarIcon: ({ color }) => (
             <Icon name="ios-home" color={color} size={26} />
           ),
@@ -48,7 +48,7 @@ const HomeStackScreen=({navigation}) =>(
     <HomeStack.Navigator 
       screenOptions={{
         headerStyle:{
-          backgroundColor:'#009387'
+          backgroundColor:'#9A4B24'
         },
         headerTintColor:'black',
         headerTitleStyle:{
@@ -69,7 +69,7 @@ const HomeStackScreen=({navigation}) =>(
     >
     <HomeStack.Screen name="Home" component={HomeScreen} options={{
         headerLeft:()=>(
-          <Icon.Button name='ios-menu' size={25} backgroundColor="#009387" onPress={()=>{navigation.openDrawer()}}></Icon.Button>
+          <Icon.Button name='ios-menu' size={25} backgroundColor="#9A4B24" onPress={()=>{navigation.openDrawer()}}></Icon.Button>
         )
       }} 
     />
