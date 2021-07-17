@@ -14,15 +14,15 @@ const AboutScreen=({navigation})=>{
         <Text style={{fontSize:22,marginHorizontal:40,paddingVertical:10,fontWeight:'bold'}}>Devansh Mehra</Text>
         <View style={styles.links}>
           <Icon name="logo-github" size={30} color="black" ></Icon>
-          <Text style={styles.hyplink} onPress={() => Linking.openURL('https://github.com/Devansh0512')}>GitHub</Text>
+          <Text style={styles.inlinks} onPress={() => Linking.openURL('https://github.com/Devansh0512')}>GitHub</Text>
         </View>
         <View style={styles.links}>
           <Icon name="mail" size={30} color="black" ></Icon>
-          <Text style={styles.hyplink} onPress={() => Linking.openURL('mailto:devanshmehra108@gmail.com')}>Mail</Text>
+          <Text style={styles.inlinks} onPress={() => Linking.openURL('mailto:devanshmehra108@gmail.com')}>Mail</Text>
         </View>
         <View style={styles.links}>
           <Icon name="logo-linkedin" size={30} color="#0077b5" ></Icon>
-          <Text style={styles.hyplink} onPress={() => Linking.openURL('https://www.linkedin.com/in/devansh-mehra-485975157/')}>LinkedIn</Text>
+          <Text style={styles.inlinks} onPress={() => Linking.openURL('https://www.linkedin.com/in/devansh-mehra-485975157/')}>LinkedIn</Text>
         </View>
       </View>
     </ImageBackground>
@@ -48,12 +48,12 @@ const styles = StyleSheet.create({
     textAlign: 'justify',
     marginBottom:30
   },
-  hyplink: {
-    color: '#064ea1',
-    textDecorationLine: 'underline',
+  inlinks: {
+    color: '#0000EE',
     fontSize: 20,
-    paddingTop:3,
-    paddingLeft:10
+    alignSelf:'center',
+    textDecorationLine: 'underline',
+    paddingLeft:10,
   },
   links:{
     display:'flex', 
