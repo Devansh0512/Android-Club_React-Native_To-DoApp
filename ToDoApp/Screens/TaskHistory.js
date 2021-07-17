@@ -7,13 +7,14 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 const TaskHistory = ({navigation}) => {
 
     // react hooks for managing states 
-    const [tempTask, setTempTask] = useState([]);
-    
+    const [tempTask, setTempTask] = useState([]); 
+
     const getData = async () => {
       try {
-        const value = await AsyncStorage.getItem('Deletedtasklist')
+        const value = await AsyncStorage.getItem('DeletedTasklist')
         if(value !== null){
           setTempTask(JSON.parse(value))
+          //console.log(tempTask)
         }
       } catch(e) {
         // error reading the value
@@ -25,11 +26,13 @@ const TaskHistory = ({navigation}) => {
       getData()
     },[])
 
-    const deleteTask = (index) => {
-      let task_temp = [...tempTask];
-      task_temp.splice(index, 1);
-      setTempTask(task_temp) 
-    }
+    // const deleteTask = (index) => {
+    //   let task_temp = [...tempTask];
+    //   task_temp.splice(index, 1);
+    //   setTempTask(task_temp) 
+    //   storeData(tempTask)
+    //   console.log(task_temp)
+    // }
 
     return (
         <View style={mystyles.container}>
@@ -47,23 +50,25 @@ const TaskHistory = ({navigation}) => {
               tempTask.map((item,index) => {
                 return (
                   <View style={mystyles.task_plate}>
-                  <View style={mystyles.leftContainer}>
-                    <View style={{ marginRight: 15 }}><Icon name="reader-outline" color={'#63A547'} size={20}/></View>
-                    <Text style={{ fontSize:16, maxWidth: '80%' }}>{item}</Text>
+                    <View style={mystyles.leftContainer}>
+                      <View style={{ marginRight: 15 }}><Icon name="reader-outline" color={'#63A547'} size={20}/></View>
+                      <Text style={{ fontSize:16, maxWidth: '80%' }}>{item}</Text>
+                    </View>
                   </View>
-                  <View style={mystyles.rightContainer}>
-                  <TouchableOpacity style={{ borderColor: '#63A547', marginLeft:15 }} key={index}  onPress={() => deleteTask(index)}><Icon name="trash-outline" color={'#63A547'} size={20}/></TouchableOpacity>
-                  </View>
-                </View>
                 )
               })
             }
           </View>
         </View>
         </ScrollView>
+        <View style={mystyles.btns}>
+        <Pressable style={mystyles.activebutton1} onPress={() => getData()}>
+              <IonIcon name="refresh-outline" size={26} color="white" /><Text style={{fontSize: 16, color: 'white',}}>  Refresh</Text>
+          </Pressable>
         <Pressable style={mystyles.activebutton} onPress={() => navigation.navigate('Home')}>
               <IonIcon name="ios-home" size={26} color="white" /><Text style={{fontSize: 16, color: 'white',}}>  Return to Home</Text>
         </Pressable>
+        </View>
        </View>
     );
 };
@@ -93,9 +98,15 @@ const mystyles = StyleSheet.create({
       flexDirection:'row',
       alignItems:'center',
     },
+    del:{
+      flexDirection:'row',
+      justifyContent:'space-between',
+      alignItems:'baseline',
+    },
     task_plate: {
       backgroundColor: '#FFF',
       borderRadius: 10,
+      width:"88%",
       padding: 15,
       marginBottom: 20,
       alignItems: 'center',
@@ -106,12 +117,31 @@ const mystyles = StyleSheet.create({
       paddingVertical: 10,
       marginTop:20,
       bottom:50,
-      width:200,
+      width:180,
       backgroundColor: '#9A4B24',
       borderRadius: 10,
       alignSelf:'center',
       alignItems:'center',
       justifyContent: 'center',
       flexDirection: 'row'
+    },
+    activebutton1: {
+      paddingVertical: 10,
+      marginRight:20,
+      marginTop:20,
+      bottom:50,
+      width:150,
+      backgroundColor: 'green',
+      borderRadius: 10,
+      alignSelf:'center',
+      alignItems:'center',
+      justifyContent: 'center',
+      flexDirection: 'row'
+    },
+    btns:{
+      flexDirection:'row',
+      justifyContent:'center',
+      paddingHorizontal:20,
+
     },
   });

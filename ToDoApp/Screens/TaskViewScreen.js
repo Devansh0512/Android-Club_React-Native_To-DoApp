@@ -22,7 +22,7 @@ const FeedScreen = ({navigation}) => {
 
     const storeDeletedData = async (value) => {
       try {
-        await AsyncStorage.setItem('Deletedtasklist', JSON.stringify(value))
+        await AsyncStorage.setItem('DeletedTasklist', JSON.stringify(value))
       } catch (e) {
         //error storing the value
       }
@@ -39,14 +39,26 @@ const FeedScreen = ({navigation}) => {
       }
     }
 
+    const getDeletedData = async () => {
+      try {
+        const value = await AsyncStorage.getItem('DeletedTasklist')
+        if(value !== null){
+          setDeletedTaskItems(JSON.parse(value))
+        }
+      } catch(e) {
+        // error reading the value
+      }
+    }
+
     //onstart calling getData function to retrieve any previously stored values from the JSON file
     useEffect(()=>{
       getData()
+      getDeletedData()
     },[])
 
     const addTask = () => {
         Keyboard.dismiss();
-        if(task !== null){
+        if(task !== null && task !==''){
           setTaskItems([...taskItems, task]) // appending the task value to the the array
           storeData([...taskItems,task]) // storing the array in async storage
           //console.log([...taskItems,task])
@@ -62,12 +74,13 @@ const FeedScreen = ({navigation}) => {
 
     const deleteTask = (index) => {
       let task_temp = [...taskItems];
-      setDeletedTaskItems([...deletedtaskItems,taskItems[index]])
+      //console.log(deletedtaskItems)
+      //setDeletedTaskItems([...deletedtaskItems,taskItems[index]])
       task_temp.splice(index, 1);
       setTaskItems(task_temp) 
       //console.log(task_temp)
       storeData(task_temp) // overwriting the modified array in the async local storage after deletion of the task.
-      //console.log([...deletedtaskItems,taskItems[index]])
+      console.log([...deletedtaskItems,taskItems[index]])
       storeDeletedData([...deletedtaskItems,taskItems[index]])
     }
 
@@ -106,16 +119,18 @@ const FeedScreen = ({navigation}) => {
             {
               taskItems.map((item, index) => {
                 return (
-                  <View style={mystyles.task_plate}>
-                  <View style={mystyles.leftContainer}>
-                    <View style={{ marginRight: 15 }}><Icon name="reader-outline" color={'#63A547'} size={20}/></View>
-                    <Text style={{ fontSize:16, maxWidth: '80%' }}>{item}</Text>
+                  <View style={mystyles.del}>
+                    <View style={mystyles.task_plate}>
+                      <View style={mystyles.leftContainer}>
+                        <View style={{ marginRight: 15 }}><Icon name="reader-outline" color={'#63A547'} size={20}/></View>
+                        <Text style={{ fontSize:16, maxWidth: '80%' }}>{item}</Text>
+                      </View>
+                      <View style={mystyles.rightContainer}>
+                      <TouchableOpacity><Icon name="create-outline" color={'#63A547'} size={20}/></TouchableOpacity>
+                      </View>
+                    </View>
+                <TouchableOpacity style={{ borderColor: 'red', marginLeft:15 }} key={index} onPress={() => {deleteTask(index);getDeletedData();}}><Icon name="trash-outline" color={'red'} size={22}/></TouchableOpacity>
                   </View>
-                  <View style={mystyles.rightContainer}>
-                  <TouchableOpacity><Icon name="create-outline" color={'#63A547'} size={20}/></TouchableOpacity>
-                  <TouchableOpacity style={{ borderColor: '#63A547', marginLeft:15 }} key={index}  onPress={() => deleteTask(index)}><Icon name="trash-outline" color={'#63A547'} size={20}/></TouchableOpacity>
-                  </View>
-                </View>
                 )
               })
             }
@@ -126,7 +141,7 @@ const FeedScreen = ({navigation}) => {
         {/* {restricting overlapping of keyboard while taking input from the user} */}
         <KeyboardAvoidingView  style={mystyles.inputContainer}>
          <TextInput style={mystyles.task_input} placeholder={'Write a task'} value={task} onChangeText={text => setTask(text)} />
-         <TouchableOpacity onPress={() => addTask()}>
+         <TouchableOpacity onPress={() => {getDeletedData(); addTask();}}>
            <Icon name="add-circle-outline" color={'#63A547'} size={50}/>
          </TouchableOpacity>
        </KeyboardAvoidingView>
@@ -143,6 +158,11 @@ const mystyles = StyleSheet.create({
     },
     tasksList: {
       paddingHorizontal: 20,
+    },
+    del:{
+      flexDirection:'row',
+      justifyContent:'space-between',
+      alignItems:'baseline',
     },
     title: {
       paddingTop: 30,
@@ -179,6 +199,7 @@ const mystyles = StyleSheet.create({
     },
     task_plate: {
       backgroundColor: '#FFF',
+      width:"90%",
       borderRadius: 10,
       padding: 15,
       marginBottom: 20,
