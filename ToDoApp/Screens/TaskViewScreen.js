@@ -80,7 +80,7 @@ const FeedScreen = ({navigation}) => {
       setTaskItems(task_temp) 
       //console.log(task_temp)
       storeData(task_temp) // overwriting the modified array in the async local storage after deletion of the task.
-      console.log([...deletedtaskItems,taskItems[index]])
+      //console.log([...deletedtaskItems,taskItems[index]])
       storeDeletedData([...deletedtaskItems,taskItems[index]])
     }
 
